@@ -7,7 +7,7 @@ class snackBars {
       backgroundColor: Colors.black,
       content: Text(
         content,
-        style: const TextStyle(color: Colors.redAccent, letterSpacing: 0.5),
+        style: const TextStyle(color: Colors.white, letterSpacing: 0.5),
       ),
     );
   }
