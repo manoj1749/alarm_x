@@ -44,7 +44,7 @@ class CurvePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final white = Paint()..color = Colors.blueAccent.withAlpha(80);
+    final white = Paint()..color = Colors.indigo.shade500.withAlpha(80);
     final path = Path();
 
     final y1 = sin(value);

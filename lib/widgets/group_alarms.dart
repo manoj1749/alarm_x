@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../screens/login.dart';
+
 class GroupAlarms extends StatefulWidget {
   const GroupAlarms({super.key});
 
@@ -11,7 +13,7 @@ class _GroupAlarmsState extends State<GroupAlarms> {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Text('Group Alarms'),
+      child: LoginPage(),
     );
   }
 }

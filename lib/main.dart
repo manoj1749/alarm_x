@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'package:alarm/alarm.dart';
+import 'package:alarm_example/screens/home.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
-
-import 'screens/login.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +15,6 @@ Future<void> main() async {
 
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: LoginPage(),
+    home: HomePage(),
   ));
 }
