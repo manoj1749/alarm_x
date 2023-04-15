@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "953132250973",
+    "project_id": "ultimate-alarm-clock-df2ad",
+    "storage_bucket": "ultimate-alarm-clock-df2ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953132250973:android:b7917888b7e38791601ab4",
+        "android_client_info": {
+          "package_name": "com.example.alarm_x"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "953132250973-9qhaqa19f4dbl32j0ngug988ghrj91ck.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2HZSILOh0Po_Zouo-60QSWIo6fz0sVCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "953132250973-9qhaqa19f4dbl32j0ngug988ghrj91ck.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "953132250973-dbh40bucp5g9ildrbq6i7clsokfu6i0t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.ultimateAlarmClock"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
