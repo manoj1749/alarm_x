@@ -10,7 +10,7 @@ import 'screens/login.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Authentication.initializeFirebase();
+  // await Authentication.initializeFirebase();
   await Alarm.init();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
