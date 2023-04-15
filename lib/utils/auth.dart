@@ -62,10 +62,6 @@ class Authentication {
     }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isLoggedIn', true);
-    //await prefs.setString('username', user!.displayName!);
-    // print(user!.displayName);
-    // print(user.uid);
-    //await prefs.User('user', user);
     return user;
   }
 
