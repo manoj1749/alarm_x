@@ -6,14 +6,14 @@ import 'package:alarm_example/screens/ring.dart';
 import 'package:alarm_example/widgets/tile.dart';
 import 'package:flutter/material.dart';
 
-class ExampleAlarmHomeScreen extends StatefulWidget {
-  const ExampleAlarmHomeScreen({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<ExampleAlarmHomeScreen> createState() => _ExampleAlarmHomeScreenState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _ExampleAlarmHomeScreenState extends State<ExampleAlarmHomeScreen> {
+class _HomePageState extends State<HomePage> {
   late List<AlarmSettings> alarms;
   int selectedPageIndex = 0;
 
@@ -117,12 +117,21 @@ class _ExampleAlarmHomeScreenState extends State<ExampleAlarmHomeScreen> {
                       ),
                     ),
             )
-          : const Center(
-              child: Text(
-                'Groups',
-                style: TextStyle(fontSize: 28),
-              ),
-            ),
+          : selectedIndex == 1
+              ? const Center(
+                  child: Text(
+                    'Groups',
+                    style: TextStyle(fontSize: 28),
+                  ),
+                )
+              : selectedIndex == 2
+                  ? const Center(
+                      child: Text(
+                        'Settings',
+                        style: TextStyle(fontSize: 28),
+                      ),
+                    )
+                  : null,
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(10),
         child: Row(
@@ -141,10 +150,6 @@ class _ExampleAlarmHomeScreenState extends State<ExampleAlarmHomeScreen> {
               heroTag: null,
               child: const Text("RING NOW", textAlign: TextAlign.center),
             ),
-            // FloatingActionButton(
-            //   onPressed: () => navigateToAlarmScreen(null),
-            //   child: const Icon(Icons.alarm_add_rounded, size: 33),
-            // ),
           ],
         ),
       ),
@@ -152,7 +157,7 @@ class _ExampleAlarmHomeScreenState extends State<ExampleAlarmHomeScreen> {
       bottomNavigationBar: NavigationBar(
           selectedIndex: selectedPageIndex,
           onDestinationSelected: (int index) {
-            debugPrint("Selected index: $index");
+            // debugPrint("Selected index: $index");
             setState(() {
               selectedPageIndex = index;
             });
