@@ -25,6 +25,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+  animated_background:
+    dependency: "direct main"
+    description:
+      name: animated_background
+      sha256: "24b05a6dca2cb0231b011f9e8fd2e9d8060faac08a78cf0643915bb7d6e9b03b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   args:
     dependency: transitive
     description:
@@ -480,6 +488,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  sa_v1_migration:
+    dependency: "direct main"
+    description:
+      name: sa_v1_migration
+      sha256: "6577cbb7d8842347360a7c805ebee91b3248d5887d20f883bbedff5047cddc10"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.2"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -536,6 +552,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
+  simple_animations:
+    dependency: "direct main"
+    description:
+      name: simple_animations
+      sha256: "6da9a59389d7f6695391f702b0893a0fc63aed2b4d41509cfc1f8781218db635"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.0+3"
   sky_engine:
     dependency: transitive
     description: flutter
