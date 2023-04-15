@@ -2,6 +2,7 @@
 
 import 'package:alarm_example/utils/auth.dart';
 import 'package:alarm_example/utils/checknetwork.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:alarm_example/utils/snackbar.dart';
 
@@ -30,6 +31,10 @@ class LoginPage extends StatelessWidget {
                 final bool userConnection =
                     await CheckUserConnection().checkUserConnection();
                 if (userConnection) {
+                  await Authentication.initializeFirebase();
+                  User? user =
+                      await Authentication.signInWithGoogle(context: context);
+                  print(user);
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (context) => const ExampleAlarmHomeScreen(),
