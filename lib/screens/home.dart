@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:alarm/alarm.dart';
 import 'package:alarm_example/screens/edit_alarm.dart';
 import 'package:alarm_example/screens/ring.dart';
+import 'package:alarm_example/screens/group_alarms.dart';
+import 'package:alarm_example/screens/settings.dart';
+import 'package:alarm_example/widgets/group_alarms.dart';
 import 'package:alarm_example/widgets/tile.dart';
 import 'package:flutter/material.dart';
 
@@ -118,19 +121,9 @@ class _HomePageState extends State<HomePage> {
                     ),
             )
           : selectedIndex == 1
-              ? const Center(
-                  child: Text(
-                    'Groups',
-                    style: TextStyle(fontSize: 28),
-                  ),
-                )
+              ? const GroupAlarms()
               : selectedIndex == 2
-                  ? const Center(
-                      child: Text(
-                        'Settings',
-                        style: TextStyle(fontSize: 28),
-                      ),
-                    )
+                  ? const Settings()
                   : null,
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(10),
