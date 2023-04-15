@@ -37,7 +37,7 @@ class LoginPage extends StatelessWidget {
                   print(user);
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (context) => const ExampleAlarmHomeScreen(),
+                      builder: (context) => const HomeScreen(),
                     ),
                   );
                 } else if (!userConnection) {
