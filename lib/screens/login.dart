@@ -1,4 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:alarm_example/utils/auth.dart';
+import 'package:alarm_example/utils/checknetwork.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:alarm_example/utils/snackbar.dart';
 
 import 'home.dart';
 
@@ -21,12 +27,32 @@ class LoginPage extends StatelessWidget {
             ),
             const SizedBox(height: 32),
             ElevatedButton.icon(
-              onPressed: () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (context) => const ExampleAlarmHomeScreen(),
-                  ),
-                );
+              onPressed: () async {
+                final bool userConnection =
+                    await CheckUserConnection().checkUserConnection();
+                if (userConnection) {
+                  await Authentication.initializeFirebase();
+                  User? user =
+                      await Authentication.signInWithGoogle(context: context);
+                  print(user);
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => const ExampleAlarmHomeScreen(),
+                    ),
+                  );
+                } else if (!userConnection) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    snackBars.customSnackBar(
+                      content: 'No internet connection',
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    snackBars.customSnackBar(
+                      content: 'Something went wrong',
+                    ),
+                  );
+                }
               },
               icon: const Icon(Icons.login),
               label: const Text('Sign in with Google'),
