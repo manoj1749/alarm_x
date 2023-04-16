@@ -16,7 +16,7 @@ class Authentication {
   static Future<User?> signInWithGoogle({required BuildContext context}) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
-
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
     final GoogleSignInAccount? googleSignInAccount =
@@ -60,13 +60,16 @@ class Authentication {
         );
       }
     }
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // ignore: unused_local_variable
+    //SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isLoggedIn', true);
+    await prefs.setString('user', user.toString());
     return user;
   }
 
   static Future<void> signOut({required BuildContext context}) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
     try {
       //if (!kIsWeb) {
@@ -81,5 +84,6 @@ class Authentication {
         ),
       );
     }
+    await prefs.setBool('isLoggedIn', false);
   }
 }

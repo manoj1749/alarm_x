@@ -70,6 +70,7 @@ class LoginPage extends StatelessWidget {
                       print('1');
                       print(user);
                       print('2');
+
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (context) => const HomePage(),
@@ -92,44 +93,44 @@ class LoginPage extends StatelessWidget {
                   icon: const Icon(Icons.login),
                   label: const Text('Sign in with Google'),
                 ),
-                ElevatedButton.icon(
-                  style: ButtonStyle(backgroundColor:
-                      MaterialStateProperty.resolveWith<Color?>(
-                          (Set<MaterialState> states) {
-                    return const Color.fromARGB(255, 162, 157, 150);
-                  })),
-                  onPressed: () async {
-                    final bool userConnection =
-                        await CheckUserConnection().checkUserConnection();
-                    if (userConnection) {
-                      await Authentication.initializeFirebase();
-                      await Authentication.signOut(context: context);
-                      print('1');
-                      print('signed Out');
-                      //print(user);
-                      print('2');
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => const HomePage(),
-                        ),
-                      );
-                    } else if (!userConnection) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        snackBars.customSnackBar(
-                          content: 'No internet connection',
-                        ),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        snackBars.customSnackBar(
-                          content: 'Something went wrong',
-                        ),
-                      );
-                    }
-                  },
-                  icon: const Icon(Icons.login),
-                  label: const Text('Sign Out'),
-                ),
+                // ElevatedButton.icon(
+                //   style: ButtonStyle(backgroundColor:
+                //       MaterialStateProperty.resolveWith<Color?>(
+                //           (Set<MaterialState> states) {
+                //     return const Color.fromARGB(255, 162, 157, 150);
+                //   })),
+                //   onPressed: () async {
+                //     final bool userConnection =
+                //         await CheckUserConnection().checkUserConnection();
+                //     if (userConnection) {
+                //       await Authentication.initializeFirebase();
+                //       await Authentication.signOut(context: context);
+                //       print('1');
+                //       print('signed Out');
+                //       //print(user);
+                //       print('2');
+                //       Navigator.of(context).pushReplacement(
+                //         MaterialPageRoute(
+                //           builder: (context) => const HomePage(),
+                //         ),
+                //       );
+                //     } else if (!userConnection) {
+                //       ScaffoldMessenger.of(context).showSnackBar(
+                //         snackBars.customSnackBar(
+                //           content: 'No internet connection',
+                //         ),
+                //       );
+                //     } else {
+                //       ScaffoldMessenger.of(context).showSnackBar(
+                //         snackBars.customSnackBar(
+                //           content: 'Something went wrong',
+                //         ),
+                //       );
+                //     }
+                //   },
+                //   icon: const Icon(Icons.login),
+                //   label: const Text('Sign Out'),
+                // ),
               ],
             ),
           )

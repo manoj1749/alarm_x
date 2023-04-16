@@ -13,7 +13,7 @@ class _GroupAlarmsState extends State<GroupAlarms> {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: LoginPage(),
+      child: Text('Group Alarms'),
     );
   }
 }
