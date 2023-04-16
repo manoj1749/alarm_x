@@ -185,27 +185,6 @@ class _HomePageState extends State<HomePage> {
                 : selectedIndex == 2
                     ? const Settings()
                     : null,
-        // floatingActionButton: Padding(
-        //   padding: const EdgeInsets.all(10),
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //     children: [
-        //       FloatingActionButton(
-        //         onPressed: () {
-        //           final alarmSettings = AlarmSettings(
-        //             id: 42,
-        //             dateTime: DateTime.now(),
-        //             assetAudioPath: 'assets/mozart.mp3',
-        //           );
-        //           Alarm.set(alarmSettings: alarmSettings);
-        //         },
-        //         backgroundColor: Colors.red,
-        //         heroTag: null,
-        //         child: const Text("RING NOW", textAlign: TextAlign.center),
-        //       ),
-        //     ],
-        //   ),
-        // ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.indigo.shade500,
