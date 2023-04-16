@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
 
-class Settings extends StatefulWidget {
+class Settings extends StatelessWidget {
   const Settings({super.key});
 
   @override
-  State<Settings> createState() => _SettingsState();
-}
-
-class _SettingsState extends State<Settings> {
-  @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Settings', style: TextStyle(fontSize: 28)),
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          CircleAvatar(
+            radius: 70,
+            backgroundImage: NetworkImage('https://picsum.photos/400'),
+          ),
+          Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Text(
+              'Manoj',
+              style: TextStyle(fontSize: 25),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
