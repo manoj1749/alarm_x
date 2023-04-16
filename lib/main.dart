@@ -15,9 +15,28 @@ Future<void> main() async {
   await Alarm.init();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Alarm.init(showDebugLogs: true);
+  print(_isLoggedIn);
 
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: _isLoggedIn ? HomePage() : LoginPage(),
+  runApp(MyApp(
+    isLoggedin: _isLoggedIn,
   ));
+}
+
+class MyApp extends StatelessWidget {
+  final bool isLoggedin;
+  MyApp({
+    super.key,
+    required this.isLoggedin,
+  });
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: isLoggedin ? HomePage() : LoginPage(),
+    );
+  }
 }
