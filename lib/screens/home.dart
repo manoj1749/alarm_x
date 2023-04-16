@@ -59,7 +59,8 @@ class _HomePageState extends State<HomePage> {
         builder: (context) {
           return FractionallySizedBox(
             heightFactor: 0.6,
-            child: ExampleAlarmEditScreen(alarmSettings: settings),
+            child:
+                ExampleAlarmEditScreen(alarmSettings: settings, group: false),
           );
         });
 

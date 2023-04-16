@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 class ExampleAlarmEditScreen extends StatefulWidget {
   final AlarmSettings? alarmSettings;
-
-  const ExampleAlarmEditScreen({Key? key, this.alarmSettings})
+  final bool group;
+  const ExampleAlarmEditScreen(
+      {Key? key, this.alarmSettings, required this.group})
       : super(key: key);
 
   @override
