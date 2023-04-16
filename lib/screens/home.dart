@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:alarm/alarm.dart';
 import 'package:alarm_example/screens/edit_alarm.dart';
 import 'package:alarm_example/screens/ring.dart';
-import 'package:alarm_example/screens/group_alarms.dart';
 import 'package:alarm_example/screens/settings.dart';
 import 'package:alarm_example/widgets/group_alarms.dart';
 import 'package:alarm_example/widgets/tile.dart';
@@ -148,6 +147,10 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: NavigationBar(
+          backgroundColor: Colors.indigo.shade500,
+
+          //labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+          //backgroundColor: Colors.indigo.shade500,
           selectedIndex: selectedPageIndex,
           onDestinationSelected: (int index) {
             // debugPrint("Selected index: $index");
@@ -158,15 +161,24 @@ class _HomePageState extends State<HomePage> {
           },
           destinations: const [
             NavigationDestination(
-              icon: Icon(Icons.alarm),
+              icon: Icon(
+                Icons.alarm,
+                color: Colors.white,
+              ),
               label: 'Alarms',
             ),
             NavigationDestination(
-              icon: Icon(Icons.people_alt_outlined),
+              icon: Icon(
+                Icons.people_alt_outlined,
+                color: Colors.white,
+              ),
               label: 'Groups',
             ),
             NavigationDestination(
-              icon: Icon(Icons.settings),
+              icon: Icon(
+                Icons.settings,
+                color: Colors.white,
+              ),
               label: 'Settings',
             ),
           ]),
