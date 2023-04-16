@@ -1,11 +1,5 @@
-import 'dart:math';
-
 import 'package:alarm/alarm.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '../widgets/copyField.dart';
 
 class ExampleAlarmEditScreen extends StatefulWidget {
   final AlarmSettings? alarmSettings;
@@ -99,28 +93,6 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
   void saveAlarm() {
     Alarm.set(alarmSettings: buildAlarmSettings())
         .then((_) => Navigator.pop(context, true));
-    FirebaseFirestore db = FirebaseFirestore.instance;
-    final CollectionReference users = db.collection('Alarms');
-    String x = generateRandomString();
-    users.doc(x).set({
-      'id': buildAlarmSettings().id,
-      'dateTime': buildAlarmSettings().dateTime,
-      'loopAudio': buildAlarmSettings().loopAudio,
-      'vibrate': buildAlarmSettings().vibrate,
-      'notificationTitle': buildAlarmSettings().notificationTitle,
-      'notificationBody': buildAlarmSettings().notificationBody,
-      'assetAudioPath': buildAlarmSettings().assetAudioPath,
-    });
-    SnackBar snackBar = SnackBar(
-      content: Text(x),
-      action: SnackBarAction(
-        label: 'Undo',
-        onPressed: () {
-          deleteAlarm();
-        },
-      ),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   Future<void> deleteAlarm() async {
@@ -128,18 +100,8 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
         .then((_) => Navigator.pop(context, true));
   }
 
-  String generateRandomString() {
-    final random = Random();
-    const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    return String.fromCharCodes(
-      List.generate(10, (_) => chars.codeUnitAt(random.nextInt(chars.length))),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    Firebase.initializeApp();
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
       child: Column(
@@ -159,9 +121,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
                 ),
               ),
               TextButton(
-                onPressed: () {
-                  saveAlarm;
-                },
+                onPressed: saveAlarm,
                 child: Text(
                   "Save",
                   style: Theme.of(context)

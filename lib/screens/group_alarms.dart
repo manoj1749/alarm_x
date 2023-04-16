@@ -60,7 +60,7 @@ class _GroupAlarmState extends State<GroupAlarm> {
         builder: (context) {
           return FractionallySizedBox(
             heightFactor: 0.6,
-            child: ExampleAlarmEditScreen(alarmSettings: settings, group: true),
+            child: ExampleAlarmEditScreen(alarmSettings: settings),
           );
         });
 
