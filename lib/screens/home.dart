@@ -78,6 +78,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Colors.indigo.shade500,
           title: selectedPageIndex == 0
               ? const Text(
@@ -91,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                     )
                   : selectedPageIndex == 2
                       ? const Text(
-                          'Settings',
+                          'Profile settings',
                           style: TextStyle(fontSize: 28),
                         )
                       : null,
@@ -183,7 +184,7 @@ class _HomePageState extends State<HomePage> {
             : selectedIndex == 1
                 ? const GroupAlarms()
                 : selectedIndex == 2
-                    ? const Settings()
+                    ? Settings()
                     : null,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigationBar(
@@ -208,7 +209,7 @@ class _HomePageState extends State<HomePage> {
             ),
             const BottomNavigationBarItem(
               icon: Icon(Icons.settings),
-              label: 'Settings',
+              label: 'Profile',
             ),
           ],
         ));
