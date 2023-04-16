@@ -11,7 +11,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Text('Settings'),
+      child: Text('Settings', style: TextStyle(fontSize: 28)),
     );
   }
 }

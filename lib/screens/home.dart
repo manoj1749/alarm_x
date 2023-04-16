@@ -76,113 +76,103 @@ class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.indigo.shade500,
-        title: const Text(
-          'Alarm X',
-          style: TextStyle(fontSize: 28),
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10.0, right: 10),
-            child: IconButton(
-              icon: const Icon(Icons.alarm_add_outlined, size: 33),
-              onPressed: () => navigateToAlarmScreen(null),
-            ),
+        appBar: AppBar(
+          backgroundColor: Colors.indigo.shade500,
+          title: const Text(
+            'Alarm X',
+            style: TextStyle(fontSize: 28),
           ),
-        ],
-      ),
-      body: selectedIndex == 0
-          ? SafeArea(
-              child: alarms.isNotEmpty
-                  ? ListView.separated(
-                      itemCount: alarms.length,
-                      separatorBuilder: (context, index) => const Divider(),
-                      itemBuilder: (context, index) {
-                        return ExampleAlarmTile(
-                          key: Key(alarms[index].id.toString()),
-                          title: TimeOfDay(
-                            hour: alarms[index].dateTime.hour,
-                            minute: alarms[index].dateTime.minute,
-                          ).format(context),
-                          onPressed: () => navigateToAlarmScreen(alarms[index]),
-                          onDismissed: () {
-                            Alarm.stop(alarms[index].id)
-                                .then((_) => loadAlarms());
-                          },
-                        );
-                      },
-                    )
-                  : const Center(
-                      child: Text(
-                        'No alarms',
-                        style: TextStyle(fontSize: 28),
-                      ),
-                    ),
-            )
-          : selectedIndex == 1
-              ? const GroupAlarms()
-              : selectedIndex == 2
-                  ? const Settings()
-                  : null,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            FloatingActionButton(
-              onPressed: () {
-                final alarmSettings = AlarmSettings(
-                  id: 42,
-                  dateTime: DateTime.now(),
-                  assetAudioPath: 'assets/mozart.mp3',
-                );
-                Alarm.set(alarmSettings: alarmSettings);
-              },
-              backgroundColor: Colors.red,
-              heroTag: null,
-              child: const Text("RING NOW", textAlign: TextAlign.center),
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10.0, right: 10),
+              child: IconButton(
+                icon: const Icon(Icons.alarm_add_outlined, size: 33),
+                onPressed: () => navigateToAlarmScreen(null),
+              ),
             ),
           ],
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: NavigationBar(
+        body: selectedIndex == 0
+            ? SafeArea(
+                child: alarms.isNotEmpty
+                    ? ListView.separated(
+                        itemCount: alarms.length,
+                        separatorBuilder: (context, index) => const Divider(),
+                        itemBuilder: (context, index) {
+                          return ExampleAlarmTile(
+                            key: Key(alarms[index].id.toString()),
+                            title: TimeOfDay(
+                              hour: alarms[index].dateTime.hour,
+                              minute: alarms[index].dateTime.minute,
+                            ).format(context),
+                            onPressed: () =>
+                                navigateToAlarmScreen(alarms[index]),
+                            onDismissed: () {
+                              Alarm.stop(alarms[index].id)
+                                  .then((_) => loadAlarms());
+                            },
+                          );
+                        },
+                      )
+                    : const Center(
+                        child: Text(
+                          'No alarms',
+                          style: TextStyle(fontSize: 28),
+                        ),
+                      ),
+              )
+            : selectedIndex == 1
+                ? const GroupAlarms()
+                : selectedIndex == 2
+                    ? const Settings()
+                    : null,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              FloatingActionButton(
+                onPressed: () {
+                  final alarmSettings = AlarmSettings(
+                    id: 42,
+                    dateTime: DateTime.now(),
+                    assetAudioPath: 'assets/mozart.mp3',
+                  );
+                  Alarm.set(alarmSettings: alarmSettings);
+                },
+                backgroundColor: Colors.red,
+                heroTag: null,
+                child: const Text("RING NOW", textAlign: TextAlign.center),
+              ),
+            ],
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.indigo.shade500,
-
-          //labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-          //backgroundColor: Colors.indigo.shade500,
-          selectedIndex: selectedPageIndex,
-          onDestinationSelected: (int index) {
-            // debugPrint("Selected index: $index");
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.grey,
+          currentIndex: selectedPageIndex,
+          onTap: (int index) {
             setState(() {
               selectedPageIndex = index;
             });
             selectedIndex = index;
           },
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(
-                Icons.alarm,
-                color: Colors.white,
-              ),
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.alarm),
               label: 'Alarms',
             ),
-            NavigationDestination(
-              icon: Icon(
-                Icons.people_alt_outlined,
-                color: Colors.white,
-              ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.people_alt_outlined),
               label: 'Groups',
             ),
-            NavigationDestination(
-              icon: Icon(
-                Icons.settings,
-                color: Colors.white,
-              ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
               label: 'Settings',
             ),
-          ]),
-    );
+          ],
+        ));
   }
 }

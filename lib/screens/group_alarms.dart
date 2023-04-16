@@ -11,7 +11,7 @@ class _GroupAlarmState extends State<GroupAlarm> {
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Text('Group Alarm'),
+      child: Text('No Group Alarm', style: TextStyle(fontSize: 28)),
     );
   }
 }
