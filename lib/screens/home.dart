@@ -78,19 +78,43 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.indigo.shade500,
-          title: const Text(
-            'Alarm X',
-            style: TextStyle(fontSize: 28),
-          ),
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10.0, right: 10),
-              child: IconButton(
-                icon: const Icon(Icons.alarm_add_outlined, size: 33),
-                onPressed: () => navigateToAlarmScreen(null),
-              ),
-            ),
-          ],
+          title: selectedPageIndex == 0
+              ? const Text(
+                  'Alarm X',
+                  style: TextStyle(fontSize: 28),
+                )
+              : selectedPageIndex == 1
+                  ? const Text(
+                      'Group Alarms',
+                      style: TextStyle(fontSize: 28),
+                    )
+                  : selectedPageIndex == 2
+                      ? const Text(
+                          'Settings',
+                          style: TextStyle(fontSize: 28),
+                        )
+                      : null,
+          actions: selectedPageIndex == 0
+              ? <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0, right: 10),
+                    child: IconButton(
+                      icon: const Icon(Icons.alarm_add_outlined, size: 33),
+                      onPressed: () => navigateToAlarmScreen(null),
+                    ),
+                  ),
+                ]
+              : selectedPageIndex == 1
+                  ? <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0, right: 10),
+                        child: IconButton(
+                          icon: const Icon(Icons.alarm_add_outlined, size: 33),
+                          onPressed: () => navigateToAlarmScreen(null),
+                        ),
+                      ),
+                    ]
+                  : null,
         ),
         body: selectedIndex == 0
             ? SafeArea(
@@ -122,7 +146,6 @@ class _HomePageState extends State<HomePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const SizedBox(height: 5),
                                     Text(
                                       TimeOfDay(
                                         hour: alarms[index].dateTime.hour,

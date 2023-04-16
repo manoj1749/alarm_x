@@ -33,6 +33,9 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
       showNotification = true;
       assetAudio = 'assets/mozart.mp3';
     } else {
+      print('1');
+      print(widget.alarmSettings);
+      print('2');
       selectedTime = TimeOfDay(
         hour: widget.alarmSettings!.dateTime.hour,
         minute: widget.alarmSettings!.dateTime.minute,
@@ -113,7 +116,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge!
-                      .copyWith(color: Colors.blueAccent),
+                      .copyWith(color: Colors.indigo),
                 ),
               ),
               TextButton(
@@ -123,7 +126,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge!
-                      .copyWith(color: Colors.blueAccent),
+                      .copyWith(color: Colors.indigo),
                 ),
               ),
             ],
@@ -138,7 +141,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
                 style: Theme.of(context)
                     .textTheme
                     .displayMedium!
-                    .copyWith(color: Colors.blueAccent),
+                    .copyWith(color: Colors.indigo),
               ),
             ),
           ),
