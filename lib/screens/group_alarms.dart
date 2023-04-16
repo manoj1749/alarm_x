@@ -33,7 +33,9 @@ class _GroupAlarmState extends State<GroupAlarm> {
   void loadAlarms() {
     setState(() {
       alarms = Alarm.getAlarms();
+
       print(alarms);
+
       alarms.sort((a, b) => a.dateTime.isBefore(b.dateTime) ? 0 : 1);
     });
   }
