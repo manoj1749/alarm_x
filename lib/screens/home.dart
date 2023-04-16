@@ -97,20 +97,55 @@ class _HomePageState extends State<HomePage> {
                 child: alarms.isNotEmpty
                     ? ListView.separated(
                         itemCount: alarms.length,
-                        separatorBuilder: (context, index) => const Divider(),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 10),
                         itemBuilder: (context, index) {
-                          return ExampleAlarmTile(
-                            key: Key(alarms[index].id.toString()),
-                            title: TimeOfDay(
-                              hour: alarms[index].dateTime.hour,
-                              minute: alarms[index].dateTime.minute,
-                            ).format(context),
-                            onPressed: () =>
-                                navigateToAlarmScreen(alarms[index]),
-                            onDismissed: () {
-                              Alarm.stop(alarms[index].id)
-                                  .then((_) => loadAlarms());
-                            },
+                          return Container(
+                            height: 100,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      TimeOfDay(
+                                        hour: alarms[index].dateTime.hour,
+                                        minute: alarms[index].dateTime.minute,
+                                      ).format(context),
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                  ],
+                                ),
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Colors.indigo,
+                                  ),
+                                  onPressed: () =>
+                                      navigateToAlarmScreen(alarms[index]),
+                                ),
+                              ],
+                            ),
                           );
                         },
                       )
@@ -160,15 +195,15 @@ class _HomePageState extends State<HomePage> {
             selectedIndex = index;
           },
           items: [
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(Icons.alarm),
               label: 'Alarms',
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(Icons.people_alt_outlined),
               label: 'Groups',
             ),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
               icon: Icon(Icons.settings),
               label: 'Settings',
             ),
