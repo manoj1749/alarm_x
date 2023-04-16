@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:alarm_example/utils/animatedpage.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home.dart';
 
@@ -45,7 +46,10 @@ class LoginPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 35),
                 FloatingActionButton.extended(
-                  onPressed: () {
+                  onPressed: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.setBool('isLoggedIn', true);
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (_) => const HomePage()),
                     );
