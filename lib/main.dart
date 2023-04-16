@@ -1,42 +1,44 @@
 import 'dart:async';
 import 'package:alarm/alarm.dart';
-import 'package:alarm_example/screens/home.dart';
-import 'package:alarm_example/screens/login.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'screens/home.dart';
+import 'screens/login.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Authentication.initializeFirebase();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool _isLoggedIn = prefs.getBool('isLogged') ?? false;
-  await Alarm.init();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Alarm.init(showDebugLogs: true);
-  print(_isLoggedIn);
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  runApp(MyApp(
-    isLoggedin: _isLoggedIn,
-  ));
+  // Check if the user is already logged in
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+
+  // If the user is already logged in, redirect to home page
+  Widget initialScreen = isLoggedIn ? const HomePage() : const LoginPage();
+
+  runApp(MyApp(initialScreen: initialScreen));
 }
 
 class MyApp extends StatelessWidget {
-  final bool isLoggedin;
-  MyApp({
-    super.key,
-    required this.isLoggedin,
-  });
-  // This widget is the root of your application.
+  final Widget initialScreen;
+
+  const MyApp({
+    Key? key,
+    required this.initialScreen,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: isLoggedin ? HomePage() : LoginPage(),
+      home: initialScreen,
     );
   }
 }

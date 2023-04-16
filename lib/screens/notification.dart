@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -5,6 +7,7 @@ class NotifTestScreen extends StatefulWidget {
   const NotifTestScreen({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _NotifTestScreenState createState() => _NotifTestScreenState();
 }
 
@@ -17,14 +20,15 @@ class _NotifTestScreenState extends State<NotifTestScreen> {
   void initState() {
     super.initState();
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
+    initializationSettingsAndroid =
+        const AndroidInitializationSettings('app_icon');
     initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid);
     flutterLocalNotificationsPlugin!.initialize(initializationSettings);
   }
 
   Future<void> _showNotification() async {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    var androidPlatformChannelSpecifics = const AndroidNotificationDetails(
       'channel_id',
       'channel_name',
       importance: Importance.max,
@@ -43,7 +47,7 @@ class _NotifTestScreenState extends State<NotifTestScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notification Test'),
+        title: const Text('Notification Test'),
       ),
       body: Center(
         child: ElevatedButton(
@@ -52,7 +56,7 @@ class _NotifTestScreenState extends State<NotifTestScreen> {
               _showNotification();
             });
           },
-          child: Text('Show Notification in 10 seconds'),
+          child: const Text('Show Notification in 10 seconds'),
         ),
       ),
     );
