@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:alarm/alarm.dart';
 import 'package:alarm/model/alarm_settings.dart';
 import 'package:alarm_example/screens/ring.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'edit_alarm.dart';
+import 'home.dart';
 
 class GroupAlarm extends StatefulWidget {
   const GroupAlarm({super.key});
@@ -16,41 +19,15 @@ class GroupAlarm extends StatefulWidget {
 
 class _GroupAlarmState extends State<GroupAlarm> {
   late List<AlarmSettings> alarms;
-  //int selectedPageIndex = 0;
-
-  static StreamSubscription? subscription;
+  TextEditingController _currentKeyController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-
-    loadAlarms();
-    subscription ??= Alarm.ringStream.stream.listen(
-      (alarmSettings) => navigateToRingScreen(alarmSettings),
-    );
+  void dispose() {
+    _currentKeyController.dispose();
+    super.dispose();
   }
 
-  void loadAlarms() {
-    setState(() {
-      alarms = Alarm.getAlarms();
-
-      print(alarms);
-
-      alarms.sort((a, b) => a.dateTime.isBefore(b.dateTime) ? 0 : 1);
-    });
-  }
-
-  Future<void> navigateToRingScreen(AlarmSettings alarmSettings) async {
-    await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              ExampleAlarmRingScreen(alarmSettings: alarmSettings),
-        ));
-    loadAlarms();
-  }
-
-  Future<void> navigateToAlarmScreen(AlarmSettings? settings) async {
+  Future<void> navigateToAlarMScreen(AlarmSettings? settings) async {
     final res = await showModalBottomSheet<bool?>(
         context: context,
         isScrollControlled: true,
@@ -67,82 +44,130 @@ class _GroupAlarmState extends State<GroupAlarm> {
           );
         });
 
-    if (res != null && res == true) loadAlarms();
-  }
-
-  @override
-  void dispose() {
-    subscription?.cancel();
-    super.dispose();
+    //if (res != null && res == true) loadAlarms();
   }
 
   @override
   Widget build(BuildContext context) {
+    Firebase.initializeApp();
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    CollectionReference alarm = db.collection('alarm');
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Group Alarm'),
-        ),
-        body: SafeArea(
-          child: alarms.isNotEmpty
-              ? ListView.separated(
-                  itemCount: alarms.length,
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 10),
-                  itemBuilder: (context, index) {
-                    return Container(
-                      height: 100,
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 5,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                TimeOfDay(
-                                  hour: alarms[index].dateTime.hour,
-                                  minute: alarms[index].dateTime.minute,
-                                ).format(context),
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 5),
-                            ],
-                          ),
-                          IconButton(
-                            icon: const Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.indigo,
-                            ),
-                            onPressed: () =>
-                                navigateToAlarmScreen(alarms[index]),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                )
-              : const Center(
-                  child: Text(
-                    'No alarms',
-                    style: TextStyle(fontSize: 28),
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 300,
+                child: TextField(
+                  controller: _currentKeyController,
+                  decoration: const InputDecoration(
+                    hintText: "Enter current key",
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.indigo),
+                    ),
                   ),
+                  cursorColor: Colors.indigo, //
                 ),
-        ));
+              ),
+              SizedBox(height: 32),
+              ElevatedButton(
+                onPressed: () {
+                  final alarm =
+                      db.collection('alarm').doc(_currentKeyController.text);
+                  alarm.get().then(
+                    (DocumentSnapshot doc) {
+                      final data = doc.data() as Map<String, dynamic>;
+                      print(data);
+                      print(data['dateTime'].seconds);
+                      int timestampMilliseconds =
+                          data['dateTime'].seconds * 1000;
+                      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(
+                          timestampMilliseconds);
+                      print(dateTime.toString());
+
+                      // DateTime tsdate =
+                      //     DateTime.fromMillisecondsSinceEpoch(data['dateTime']);
+                      // String datetime = tsdate.year.toString() +
+                      //     "/" +
+                      //     tsdate.month.toString() +
+                      //     "/" +
+                      //     tsdate.day.toString();
+                      // print(datetime);
+                      final date = dateTime;
+                      final loopAudio = data['loopAudio'];
+                      final vibrate = data['vibrate'];
+                      final notificationTitle = data['notificationTitle'];
+                      final notificationBody = data['notificationBody'];
+                      final assetAudio = data['assetAudio'];
+                      final alarmSettings = AlarmSettings(
+                        id: 1,
+                        dateTime: date,
+                        loopAudio: loopAudio,
+                        vibrate: vibrate,
+                        notificationTitle: notificationTitle,
+                        notificationBody: notificationBody,
+                        assetAudioPath: assetAudio,
+                      );
+                      // void saveAlarm() {
+                      //   Alarm.set(alarmSettings: alarmSettings)
+                      //       .then((_) => Navigator.pop(context, true));
+                      // }
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ExampleAlarmRingScreen(
+                                alarmSettings: alarmSettings),
+                          ));
+
+                      // Navigator.of(context).push(
+                      //   MaterialPageRoute(
+                      //     builder: (context) => ExampleAlarmEditScreen(
+                      //       alarmSettings: alarmSettings,
+                      //       group: false,
+                      //     ),
+                      //   ),
+                      // );
+                      // ExampleAlarmEditScreen(
+                      //     alarmSettings: alarmSettings, group: false);
+                      // Alarm.setAlarm(
+                      //   alarmSettings: alarmSettings,
+                      //   onAlarm: (alarm) {
+                      //     Navigator.of(context).push(
+                      //       MaterialPageRoute(
+                      //         builder: (context) => RingScreen(
+                      //           alarmSettings: alarmSettings,
+                      //         ),
+                      //       ),
+                      //     );
+                      //   },
+                      // );
+                    },
+                    onError: (e) => print("Error getting document: $e"),
+                  );
+                  // handle copying and entering keys
+                  // AlarmSettings alarmSettings = AlarmSettings(
+                  // id: 1,
+                  // dateTime: data['dateTime'],
+                  // loopAudio: (data['loopAudio']),
+                  // vibrate: data['vibrate'],
+                  // notificationTitle: data['notificationTitle'],
+                  // notificationBody: data['notificationBody'],
+                  // assetAudioPath: data['assetAudio'],
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.indigo,
+                  onPrimary: Colors.white,
+                ),
+                child: Text("Copy and Enter Keys"),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

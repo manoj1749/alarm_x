@@ -1,4 +1,8 @@
+import 'dart:math';
+
 import 'package:alarm/alarm.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class ExampleAlarmEditScreen extends StatefulWidget {
@@ -27,16 +31,38 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
     creating = widget.alarmSettings == null;
 
     if (creating) {
+      print('0');
+      print(widget.alarmSettings);
+      print(widget.group);
+      print('3');
       final dt = DateTime.now().add(const Duration(minutes: 1));
       selectedTime = TimeOfDay(hour: dt.hour, minute: dt.minute);
       loopAudio = true;
       vibrate = true;
       showNotification = true;
       assetAudio = 'assets/mozart.mp3';
+      Firebase.initializeApp();
+      FirebaseFirestore db = FirebaseFirestore.instance;
+      String randomString = generateRandomString();
+      CollectionReference alarm = db.collection('alarm');
+      if (widget.group == true) {
+        var id;
+        alarm.doc(randomString).set({
+          //'data': widget.alarmSettings,
+          // 'id': widget.alarmSettings?.id,
+          'dateTime': dt,
+          'loopAudio': loopAudio,
+          'vibrate': vibrate,
+          'notificationTitle': 'Alarm example',
+          'notificationBody': 'Your alarm ($id) is ringing',
+          'assetAudio': assetAudio,
+        });
+      }
     } else {
-      print('1');
-      print(widget.alarmSettings);
-      print('2');
+      // print('1');
+      // print(widget.alarmSettings);
+      // print(widget.group);
+      // print('2');
       selectedTime = TimeOfDay(
         hour: widget.alarmSettings!.dateTime.hour,
         minute: widget.alarmSettings!.dateTime.minute,
@@ -100,6 +126,16 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
         .then((_) => Navigator.pop(context, true));
   }
 
+  String generateRandomString() {
+    final random = Random();
+    const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+    String result = "";
+    for (var i = 0; i < 6; i++) {
+      result += chars[random.nextInt(chars.length)];
+    }
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -122,6 +158,18 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
               ),
               TextButton(
                 onPressed: saveAlarm,
+                // if (widget.group == true) {
+                //   alarm.doc(randomString).set({
+                //     //'id': widget.alarmSettings.id,
+                //     'dateTime': widget.alarmSettings!.dateTime,
+                //     'loopAudio': widget.alarmSettings!.loopAudio,
+                //     'vibrate': widget.alarmSettings!.vibrate,
+                //     'notificationTitle':
+                //         widget.alarmSettings!.notificationTitle,
+                //     'assetAudio': widget.alarmSettings!.assetAudioPath,
+                //   });
+                // }
+
                 child: Text(
                   "Save",
                   style: Theme.of(context)

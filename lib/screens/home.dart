@@ -4,10 +4,11 @@ import 'package:alarm/alarm.dart';
 import 'package:alarm_example/screens/edit_alarm.dart';
 import 'package:alarm_example/screens/ring.dart';
 import 'package:alarm_example/screens/settings.dart';
-import 'package:alarm_example/widgets/group_alarms.dart';
 import 'package:alarm_example/widgets/tile.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'group_alarms.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -35,6 +36,7 @@ class _HomePageState extends State<HomePage> {
   void loadAlarms() {
     setState(() {
       alarms = Alarm.getAlarms();
+
       alarms.sort((a, b) => a.dateTime.isBefore(b.dateTime) ? 0 : 1);
     });
   }
@@ -60,7 +62,27 @@ class _HomePageState extends State<HomePage> {
           return FractionallySizedBox(
             heightFactor: 0.6,
             child:
-                ExampleAlarmEditScreen(alarmSettings: settings, group: false),
+                ExampleAlarmEditScreen(alarmSettings: settings, group: !true),
+          );
+        });
+
+    if (res != null && res == true) loadAlarms();
+  }
+
+  Future<void> navigateToAlarMScreen(AlarmSettings? settings) async {
+    final res = await showModalBottomSheet<bool?>(
+        context: context,
+        isScrollControlled: true,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        builder: (context) {
+          return FractionallySizedBox(
+            heightFactor: 0.6,
+            child: ExampleAlarmEditScreen(
+              alarmSettings: settings,
+              group: true,
+            ),
           );
         });
 
@@ -112,7 +134,7 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.only(bottom: 10.0, right: 10),
                         child: IconButton(
                           icon: const Icon(Icons.alarm_add_outlined, size: 33),
-                          onPressed: () => navigateToAlarmScreen(null),
+                          onPressed: () => navigateToAlarMScreen(null),
                         ),
                       ),
                     ]
@@ -182,7 +204,7 @@ class _HomePageState extends State<HomePage> {
                       ),
               )
             : selectedIndex == 1
-                ? const GroupAlarms()
+                ? const GroupAlarm()
                 : selectedIndex == 2
                     ? Settings()
                     : null,
@@ -198,16 +220,16 @@ class _HomePageState extends State<HomePage> {
             });
             selectedIndex = index;
           },
-          items: [
-            const BottomNavigationBarItem(
+          items: const [
+            BottomNavigationBarItem(
               icon: Icon(Icons.alarm),
               label: 'Alarms',
             ),
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(Icons.people_alt_outlined),
               label: 'Groups',
             ),
-            const BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(Icons.settings),
               label: 'Profile',
             ),
