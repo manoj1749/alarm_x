@@ -8,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/home.dart';
 import 'screens/login.dart';
 
+import 'package:adaptive_theme/adaptive_theme.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Alarm.init(showDebugLogs: true);
@@ -34,13 +36,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: initialScreen,
-    );
+    return AdaptiveTheme(
+        light: ThemeData(
+            brightness: Brightness.light, primaryColor: Colors.indigo.shade500),
+        dark: ThemeData(
+          brightness: Brightness.dark,
+          primaryColor: Colors.grey.shade800,
+        ),
+        initial: AdaptiveThemeMode.dark,
+        builder: (theme, darkTheme) => MaterialApp(
+              debugShowCheckedModeBanner: true,
+              title: 'Flutter Demo',
+              theme: theme,
+              darkTheme: darkTheme,
+              home: initialScreen,
+            ));
   }
 }

@@ -31,10 +31,6 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
     creating = widget.alarmSettings == null;
 
     if (creating) {
-      print('0');
-      print(widget.alarmSettings);
-      print(widget.group);
-      print('3');
       final dt = DateTime.now().add(const Duration(minutes: 1));
       selectedTime = TimeOfDay(hour: dt.hour, minute: dt.minute);
       loopAudio = true;
@@ -59,10 +55,6 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
         });
       }
     } else {
-      // print('1');
-      // print(widget.alarmSettings);
-      // print(widget.group);
-      // print('2');
       selectedTime = TimeOfDay(
         hour: widget.alarmSettings!.dateTime.hour,
         minute: widget.alarmSettings!.dateTime.minute,
@@ -158,18 +150,6 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
               ),
               TextButton(
                 onPressed: saveAlarm,
-                // if (widget.group == true) {
-                //   alarm.doc(randomString).set({
-                //     //'id': widget.alarmSettings.id,
-                //     'dateTime': widget.alarmSettings!.dateTime,
-                //     'loopAudio': widget.alarmSettings!.loopAudio,
-                //     'vibrate': widget.alarmSettings!.vibrate,
-                //     'notificationTitle':
-                //         widget.alarmSettings!.notificationTitle,
-                //     'assetAudio': widget.alarmSettings!.assetAudioPath,
-                //   });
-                // }
-
                 child: Text(
                   "Save",
                   style: Theme.of(context)
