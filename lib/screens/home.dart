@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.indigo.shade500,
+          backgroundColor: Theme.of(context).primaryColor,
           title: selectedPageIndex == 0
               ? const Text(
                   'Alarm X',
@@ -210,7 +210,7 @@ class _HomePageState extends State<HomePage> {
                     : null,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.indigo.shade500,
+          backgroundColor: Theme.of(context).primaryColor,
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.grey,
           currentIndex: selectedPageIndex,

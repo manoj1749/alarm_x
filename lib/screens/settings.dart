@@ -1,3 +1,4 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 
 class Settings extends StatelessWidget {
@@ -8,18 +9,26 @@ class Settings extends StatelessWidget {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          CircleAvatar(
+        children: [
+          const CircleAvatar(
             radius: 70,
-            backgroundImage: NetworkImage('https://picsum.photos/400'),
+            backgroundImage: AssetImage('assets/images/pic.jpeg'),
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(20.0),
             child: Text(
               'Manoj',
               style: TextStyle(fontSize: 25),
             ),
           ),
+          TextButton(
+              onPressed: () async {
+                AdaptiveTheme.of(context).toggleThemeMode();
+                var theme = await AdaptiveTheme.getThemeMode();
+                debugPrint(theme.toString());
+              },
+              child: Text(
+                  'Change to ${AdaptiveTheme.of(context).mode == AdaptiveThemeMode.dark ? 'Light' : 'Dark'} Mode'))
         ],
       ),
     );
