@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'group_alarms.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -38,6 +40,13 @@ class _HomePageState extends State<HomePage> {
       alarms = Alarm.getAlarms();
 
       alarms.sort((a, b) => a.dateTime.isBefore(b.dateTime) ? 0 : 1);
+    });
+  }
+
+  Future<void> deleteAlarm(index) async {
+    Alarm.stop(alarms[index].id);
+    setState(() {
+      alarms.removeAt(index);
     });
   }
 
@@ -97,7 +106,10 @@ class _HomePageState extends State<HomePage> {
 
   @override
   int selectedIndex = 0;
+
   Widget build(BuildContext context) {
+    String mode = (AdaptiveTheme.of(context).mode).toString().substring(18);
+    debugPrint(mode);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -143,58 +155,85 @@ class _HomePageState extends State<HomePage> {
         body: selectedIndex == 0
             ? SafeArea(
                 child: alarms.isNotEmpty
-                    ? ListView.separated(
-                        itemCount: alarms.length,
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 10),
-                        itemBuilder: (context, index) {
-                          return Container(
-                            height: 100,
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      TimeOfDay(
-                                        hour: alarms[index].dateTime.hour,
-                                        minute: alarms[index].dateTime.minute,
-                                      ).format(context),
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                  ],
-                                ),
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Colors.indigo,
+                    ? Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: ListView.separated(
+                          itemCount: alarms.length,
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 10),
+                          itemBuilder: (context, index) {
+                            return Container(
+                              height: 100,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Theme.of(context).secondaryHeaderColor,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 1,
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 2),
                                   ),
-                                  onPressed: () =>
-                                      navigateToAlarmScreen(alarms[index]),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        TimeOfDay(
+                                          hour: alarms[index].dateTime.hour,
+                                          minute: alarms[index].dateTime.minute,
+                                        ).format(context),
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 210),
+                                    child: IconButton(
+                                        icon: Icon(
+                                          Icons.info_outline,
+                                          color: (mode == 'dark')
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                        onPressed: () => {
+                                              debugPrint(
+                                                  alarms[index].toString()),
+                                              navigateToAlarmScreen(
+                                                  alarms[index]),
+                                            }),
+                                  ),
+                                  IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () {
+                                      var dialog = showOkCancelAlertDialog(
+                                        context: context,
+                                        title: 'Delete Alarm',
+                                        message:
+                                            'Are you sure you want to delete this alarm?',
+                                        isDestructiveAction: true,
+                                      );
+                                      print(dialog.toString());
+                                    },
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                        ),
                       )
                     : const Center(
                         child: Text(
@@ -206,7 +245,7 @@ class _HomePageState extends State<HomePage> {
             : selectedIndex == 1
                 ? const GroupAlarm()
                 : selectedIndex == 2
-                    ? Settings()
+                    ? const Settings()
                     : null,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigationBar(

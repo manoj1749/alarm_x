@@ -34,7 +34,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
       loopAudio = true;
       vibrate = true;
       showNotification = true;
-      assetAudio = 'assets/mozart.mp3';
+      assetAudio = './assets/mozart.mp3';
       // Firebase.initializeApp();
       // FirebaseFirestore db = FirebaseFirestore.instance;
       // String randomString = generateRandomString();
@@ -222,19 +222,19 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
                 value: assetAudio,
                 items: const [
                   DropdownMenuItem<String>(
-                    value: 'assets/mozart.mp3',
+                    value: './assets/mozart.mp3',
                     child: Text('Mozart'),
                   ),
                   DropdownMenuItem<String>(
-                    value: 'assets/nokia.mp3',
+                    value: './assets/nokia.mp3',
                     child: Text('Nokia'),
                   ),
                   DropdownMenuItem<String>(
-                    value: 'assets/one_piece.mp3',
+                    value: './assets/one_piece.mp3',
                     child: Text('One Piece'),
                   ),
                   DropdownMenuItem<String>(
-                    value: 'assets/star_wars.mp3',
+                    value: './assets/star_wars.mp3',
                     child: Text('Star Wars'),
                   ),
                 ],
