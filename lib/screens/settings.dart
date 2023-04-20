@@ -10,10 +10,10 @@ class Settings extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const CircleAvatar(
-            radius: 70,
-            backgroundImage: AssetImage('assets/images/pic.jpeg'),
-          ),
+          // const CircleAvatar(
+          //   radius: 70,
+          //   backgroundImage: AssetImage('assets/images/pic.jpeg'),
+          // ),
           const Padding(
             padding: EdgeInsets.all(20.0),
             child: Text(
