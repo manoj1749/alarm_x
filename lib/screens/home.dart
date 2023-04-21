@@ -104,9 +104,8 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  @override
   int selectedIndex = 0;
-
+  @override
   Widget build(BuildContext context) {
     String mode = (AdaptiveTheme.of(context).mode).toString().substring(18);
     debugPrint(mode);
@@ -224,23 +223,27 @@ class _HomePageState extends State<HomePage> {
                                   IconButton(
                                     icon: const Icon(Icons.delete),
                                     onPressed: () {
-                                      // Alarm.stop(alarms[index].id);
-                                      // setState(() {
-                                      //   alarms.removeAt(index);
-                                      // });
-
                                       var dialogResponse =
                                           showOkCancelAlertDialog(
                                         context: context,
                                         title: 'Delete Alarm',
                                         message:
                                             'Are you sure you want to delete this alarm?',
+                                        okLabel: 'OK',
+                                        cancelLabel: 'Cancel',
                                         isDestructiveAction: true,
-                                        onWillPop: () {
-                                          debugPrint('onWillPop');
-                                          return Future.value(true);
-                                        },
-                                      );
+                                      ).then((result) {
+                                        if (result == OkCancelResult.ok) {
+                                          Alarm.stop(alarms[index].id);
+                                          setState(() {
+                                            alarms.removeAt(index);
+                                          });
+                                          // Replace this with your desired function for OK result
+                                        } else if (result ==
+                                            OkCancelResult.cancel) {
+                                          // Replace this with your desired function for Cancel result
+                                        }
+                                      });
 
                                       debugPrint(dialogResponse.toString());
                                       debugPrint(OkCancelResult.ok.toString());
