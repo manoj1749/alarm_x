@@ -112,6 +112,11 @@ class _HomePageState extends State<HomePage> {
     debugPrint(mode);
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+              icon: const Icon(Icons.dark_mode, size: 33),
+              onPressed: () {
+                AdaptiveTheme.of(context).toggleThemeMode();
+              }),
           centerTitle: true,
           backgroundColor: Theme.of(context).primaryColor,
           title: selectedPageIndex == 0
@@ -201,7 +206,7 @@ class _HomePageState extends State<HomePage> {
                                     ],
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 210),
+                                    padding: const EdgeInsets.only(left: 150.0),
                                     child: IconButton(
                                         icon: Icon(
                                           Icons.info_outline,
@@ -219,14 +224,34 @@ class _HomePageState extends State<HomePage> {
                                   IconButton(
                                     icon: const Icon(Icons.delete),
                                     onPressed: () {
-                                      var dialog = showOkCancelAlertDialog(
+                                      // Alarm.stop(alarms[index].id);
+                                      // setState(() {
+                                      //   alarms.removeAt(index);
+                                      // });
+
+                                      var dialogResponse =
+                                          showOkCancelAlertDialog(
                                         context: context,
                                         title: 'Delete Alarm',
                                         message:
                                             'Are you sure you want to delete this alarm?',
                                         isDestructiveAction: true,
+                                        onWillPop: () {
+                                          debugPrint('onWillPop');
+                                          return Future.value(true);
+                                        },
                                       );
-                                      print(dialog.toString());
+
+                                      debugPrint(dialogResponse.toString());
+                                      debugPrint(OkCancelResult.ok.toString());
+
+                                      if (dialogResponse.toString() ==
+                                          OkCancelResult.ok.toString()) {
+                                        Alarm.stop(alarms[index].id);
+                                        setState(() {
+                                          alarms.removeAt(index);
+                                        });
+                                      }
                                     },
                                   )
                                 ],
