@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 
@@ -128,6 +129,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String mode = (AdaptiveTheme.of(context).mode).toString().substring(18);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
       child: Column(
@@ -140,20 +142,18 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
                 onPressed: () => Navigator.pop(context, false),
                 child: Text(
                   "Cancel",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(color: Colors.indigo),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        color: (mode == 'dark') ? Colors.white : Colors.black,
+                      ),
                 ),
               ),
               TextButton(
                 onPressed: saveAlarm,
                 child: Text(
                   "Save",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(color: Colors.indigo),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        color: (mode == 'dark') ? Colors.white : Colors.black,
+                      ),
                 ),
               ),
             ],
